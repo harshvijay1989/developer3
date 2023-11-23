@@ -1,0 +1,357 @@
+<template>
+	<lightning-card>
+		<div class="slds-page-header">
+			<div class="slds-page-header__row">
+				<div class="slds-page-header__col-title">
+					<div class="slds-media">
+						<div class="slds-media__figure">
+							<span class="slds-icon_container slds-icon-standard-opportunity">
+<lightning-icon
+                                icon-name="standard:opportunity"
+                                size="small"
+                                alternative-text="Opportunity"
+                            ></lightning-icon>
+</span>
+						</div>
+						<div class="slds-media__body">
+							<div class="slds-page-header__name">
+								<div class="slds-page-header__name-title">
+									<h1>
+										<span>{objectApiName}</span>
+										<span class="slds-page-header__title slds-truncate" title="Recently Viewed">{title_1}</span>
+									</h1>
+								</div>
+								<div class="slds-page-header__name-switcher">
+									<div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+										<button class="slds-button slds-button_icon slds-button_icon-small" aria-haspopup="true" title="Switch list view">
+                                            <lightning-icon  onclick={handleSwitchListView} icon-name="utility:down" size="x-small" alternative-text="Switch list view"></lightning-icon>
+                                            <span class="slds-assistive-text">Switch list view</span>
+                                        </button>
+										<template if:true={showListViewDropdown}>
+											<div >
+												<ul class="slds-dropdown__list" role="menu"
+													aria-label="List View Controls">
+													<template for:each={listViewData} for:item="list">
+														<li class="slds-dropdown__item" role="presentation"
+															key={list.id}>
+															<a role="menuitem"
+																onclick={handleListViewClick}
+																data-name={list.apiName}
+																data-value={list.label}>{list.label}</a>
+														</li>
+													</template>
+												</ul>
+											</div>
+										</template>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slds-page-header__col-actions">
+					<div class="slds-page-header__controls">
+						<div class="slds-page-header__control">
+							<ul class="slds-button-group-list">
+								<li>
+									<button class="slds-button slds-button_neutral">New</button>
+								</li>
+								<li>
+									<div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+										<button class="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
+                    <lightning-button-icon variant="bare" size="small" icon-name="utility:down" alternative-text="opne"></lightning-button-icon>
+                    <span class="slds-assistive-text">More Actions</span>
+                    </button>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="slds-page-header__row">
+				<div class="slds-page-header__col-meta">
+					<p class="slds-page-header__meta-text">10 items • Updated 13 minutes ago</p>
+				</div>
+				<div class="slds-page-header__col-controls">
+					<div class="slds-page-header__controls">
+						<div class="slds-page-header__control">
+							<div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+								<lightning-button-icon class="slds-button slds-button_icon slds-button_icon-more"
+									variant="bare" size="small" icon-name="utility:settings"
+									alternative-text="List View Controls" onclick={toggleDropdown}>
+								</lightning-button-icon>
+							</div>
+							<template if:true={showDropdown}>
+								<div class="slds-dropdown slds-dropdown_right" style="margin-right: 188px;">
+									<ul class="slds-dropdown__list" role="menu" aria-label="List View Controls">
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleNewClick} data-value="new">New</a>
+										</li>
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleCloneClick}
+												data-value="clone">Clone</a>
+										</li>
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleRenameClick} data-value="new">Rename</a>
+										</li>
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleMenuItemClick} data-value="new">Sharing
+												Setting</a>
+										</li>
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleMenuItemClick} data-value="new">Edit List
+												Filters</a>
+										</li>
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleFieldsClick} data-value="new">Select
+												Fields to Display</a>
+										</li>
+										<li class="slds-dropdown__item" role="presentation">
+											<a role="menuitem" onclick={handleDeleteClick} data-value="new">Delete</a>
+										</li>
+									</ul>
+								</div>
+							</template>
+						</div>
+						<div class="slds-page-header__control">
+							<div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+								<lightning-button-icon class="slds-button slds-button_icon slds-button_icon-more"
+									variant="bare" size="small" icon-name="utility:table"
+									alternative-text="Change view">
+								</lightning-button-icon>
+							</div>
+						</div>
+						<div class="slds-page-header__control">
+							<lightning-button-icon class="slds-button slds-button_icon slds-button_icon-border-filled"
+								variant="bare" size="small" icon-name="utility:edit" alternative-text="Edit List">
+							</lightning-button-icon>
+						</div>
+						<div class="slds-page-header__control">
+							<lightning-button-icon class="slds-button slds-button_icon slds-button_icon-border-filled"
+								variant="bare" size="small" icon-name="utility:refresh" alternative-text="Refresh List">
+							</lightning-button-icon>
+						</div>
+						<div class="slds-page-header__control">
+							<ul class="slds-button-group-list">
+								<li>
+									<lightning-button-icon
+										class="slds-button slds-button_icon slds-button_icon-border-filled"
+										variant="bare" size="small" icon-name="utility:chart" alternative-text="Charts">
+									</lightning-button-icon>
+								</li>
+								<li>
+									<lightning-button-icon
+										class="slds-button slds-button_icon slds-button_icon-border-filled"
+										variant="bare" size="small" icon-name="utility:filterList"
+										alternative-text="Filters">
+									</lightning-button-icon>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="slds-var-m-around_medium">
+			<!-- <template if:true={records.data}> -->
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={fieldList} for:item="field">
+                            <th key={field} class="slds-is-sortable" scope="col">
+                                {field}
+                            </th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={records} for:item="record">
+                        <tr key={record.Id} class="slds-hint-parent">
+                            <template for:each={record} for:item="field" for:index="index">
+                                <td key={field}>
+                                    {field}
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        <!-- </template> -->
+			<!-- <template lwc:if={contacts.data}>
+				<lightning-datatable key-field="Id" data={contacts.data} columns={columns} onsave={handleSave}
+					draft-values={draftValues} hide-checkbox-column>
+				</lightning-datatable>
+			</template>
+			<template lwc:elseif={contacts.error}>
+				<c-error-panel errors={contacts.error}></c-error-panel>
+			</template> -->
+		</div>
+	</lightning-card>
+
+	<!--showNewModal Pop up -->
+	<template if:true={showNewModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeNewModal}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>    
+                    </button>
+					<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">New List View</h2>
+				</header>
+
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+						<lightning-input type="text" label="List Name" onchange={handleName} value={listName}
+						checked required >
+						</lightning-input>
+						<lightning-input type="text" label="List Api Name" onchange={handleApiName} value={listApiName}
+						checked required>
+						</lightning-input>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_brand" onclick={handleNewSave}>Save</button>
+					<button class="slds-button slds-button_neutral" onclick={closeNewModal}>Cancel</button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	<!-- showRenameModal -->
+	<template if:true={showRenameModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeRenameModal}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>    
+                    </button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Rename List View</h2>
+				</header>
+
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+					<div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+						<lightning-input type="text" value={title_1} label="List Name"
+						checked required onchange={handleRename}>
+						</lightning-input>
+						<lightning-input type="text" label="List Api Name" value={titleApiName}
+						checked disabled>
+						</lightning-input>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_brand" onclick={handleRenameSave}>Save</button>
+					<button class="slds-button slds-button_neutral" onclick={closeRenameModal}>Cancel</button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	<!-- Delete Modal -->
+    <template if:true={deleteListModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-07" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Delete List</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <p><b>If you delete this list view it will be permanently removed for all users with access. Are you sure you want to delete?
+                    </b></p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={deleteListView} title="Delete">Delete</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+	<!-- CloneModal -->
+	<template if:true={showCloneModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+			aria-describedby="modal-content-id-9" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCloneModal}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>    
+                    </button>
+					<h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">Clone List View</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+					<div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+						<lightning-input type="text" value={title_1} label="List Name"
+						checked required onchange={handleRename}>
+						</lightning-input>
+						<lightning-input type="text" label="List Api Name" value={titleApiName}
+						checked required>
+						</lightning-input>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_brand" onclick={handleRenameSave}>Save</button>
+					<button class="slds-button slds-button_neutral" onclick={closeCloneModal}>Cancel</button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	<!-- show Fields to display -->
+	<template if:true={showFieldsModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+			aria-describedby="modal-content-id-9" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeFieldsModal}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>    
+                    </button>
+					<h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Select Fields to Display</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+					<div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+						<lightning-dual-listbox 
+							name="languages"
+							label="Select Languages"
+							source-label="Available"
+							selected-label="Selected"
+							field-level-help="This is a dual listbox"
+							options={options}
+							onchange={handleChange}>
+						</lightning-dual-listbox>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_brand" onclick={handleRenameSave}>Save</button>
+					<button class="slds-button slds-button_neutral" onclick={closeFieldsModal}>Cancel</button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	
+</template>

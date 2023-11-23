@@ -1,0 +1,8 @@
+.slds-modal__header .slds-modal__close {
+    display: none;
+}
+
+ .slds-modal__container {
+    max-width: 100% !important;
+    width: 100% !important;
+}

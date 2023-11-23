@@ -1,0 +1,7 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="PlaceOrderController" >
+    <aura:attribute name="recordId" type="Id" />
+     <ltng:require styles="{!$Resource.auramodal}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.initializationHandler}"/> 
+    
+	
+</aura:component>
